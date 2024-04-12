@@ -1,16 +1,25 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+import csv
+import numpy as np
+from scale import scale_into_number
 
 
-# Press the green button in the gutter to run the script.
+def reading_files(filename):
+    list1 = []
+    list2 = []
+    file = open(filename)
+    csvreader = csv.reader(file)
+
+    for row in csvreader:
+        if row[0] == 'PassengerId':
+            continue
+        scaled = scale_into_number(row)
+        list2.append(scaled.pop())
+        list1.append(scaled)
+
+    data = np.array(list1)
+    label = np.array(list2)
+    return data, label
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    reading_files("titanic.csv")
